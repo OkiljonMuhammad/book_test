@@ -1,0 +1,56 @@
+# Node.js modules
+node_modules/
+
+# Configuration files
+.env
+
+# Demo files
+demo.js
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Environment variables
+.env
+.env.*.local
+
+# Dependency directories
+jspm_packages/
+.vscode/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Build and output directories
+dist/
+coverage/
+public/uploads/
+
+# Debugger configurations
+.idea/
+*.swp
+
+# Database-related auto-generated files
+*.sqlite
+*.sqlite3
+*.db
+
+# Temporary files
+tmp/
+temp/
+
+# Testing
+coverage/
+.nyc_output/
+.vercel
