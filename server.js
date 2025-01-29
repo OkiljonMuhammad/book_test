@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const { fakerEN } = require('@faker-js/faker');
 const { fakerDE } = require('@faker-js/faker');
 const { fakerRU } = require('@faker-js/faker');
+const generateBookCover = require("./generateCover");
 
 const app = express();
 app.use(cors({
@@ -30,10 +31,12 @@ const generateBooks = (seed, page, region, likes, reviews) => {
     fakerLocale.seed(seed + page + regionSeed + Math.round(likes * 100) + Math.round(reviews * 100));
 
     return Array.from({ length: ITEMS_PER_PAGE }, (_, index) => {
-        const title = fakerLocale.lorem.sentence();
-        const authors = fakerLocale.person.fullName();
-        const publisher = fakerLocale.company.name();
-        const isbn = fakerLocale.commerce.isbn();
+        const isEnglish = fakerLocale === fakerEN;
+
+        const title = isEnglish ? fakerLocale.book.title() : fakerLocale.lorem.sentence();
+        const authors = isEnglish ? fakerLocale.book.author() : fakerLocale.person.fullName();
+        const publisher = isEnglish ? fakerLocale.book.publisher() : fakerLocale.company.name();
+        const isbn = fakerLocale.string.numeric(13);
         const totalReviews = Math.floor(reviews) + (Math.random() < (reviews % 1) ? 1 : 0);
         const reviewsList = Array.from({ length: totalReviews }, () => ({
             author: fakerLocale.person.fullName(),
@@ -69,5 +72,31 @@ app.get("/books", (req, res) => {
     res.json({ books });
 });
 
+app.get("/book-cover", async (req, res) => {
+    const { title, author } = req.query;
+
+    if (!title || !author) {
+        return res.status(400).json({ error: "Title and author are required" });
+    }
+
+    try {
+        const imageBuffer = await generateBookCover(title, author);
+
+        res.set("Content-Type", "image/png");
+
+        res.send(imageBuffer);
+    } catch (error) {
+        console.error("Error generating book cover:", error);
+        res.status(500).json({ error: "Failed to generate book cover" });
+    }
+});
+
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+
+
+
+
+
+
+
