@@ -7,7 +7,7 @@ const { fakerRU } = require('@faker-js/faker');
 
 const app = express();
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'https://n-ap1c53oc9-okiljons-projects.vercel.app',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
   }));
