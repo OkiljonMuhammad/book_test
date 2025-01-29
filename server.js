@@ -7,7 +7,7 @@ const { fakerRU } = require('@faker-js/faker');
 
 const app = express();
 app.use(cors({
-    origin: 'https://n-navy-theta.vercel.app/',
+    origin: 'https://n-navy-theta.vercel.app',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
   }));
